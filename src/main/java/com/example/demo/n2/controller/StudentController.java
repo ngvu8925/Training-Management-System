@@ -3,6 +3,7 @@ package com.example.demo.n2.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +13,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.n2.model.entity.Student;
+import com.example.demo.n2.dto.StudentRequest;
+import com.example.demo.n2.dto.StudentResponse;
 import com.example.demo.n2.service.StudentService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin // cho phép frontend gọi
+@CrossOrigin
 public class StudentController {
 
     private final StudentService service;
@@ -28,41 +33,35 @@ public class StudentController {
         this.service = service;
     }
 
-    // GET ALL
     @GetMapping
-    public List<Student> getAll() {
+    public List<StudentResponse> getAll() {
         return service.getAll();
     }
 
-    // GET BY ID
     @GetMapping("/{id}")
-    public Student getById(@PathVariable UUID id) {
+    public StudentResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
-    // CREATE
     @PostMapping
-    public Student create(@RequestBody Student student) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentResponse create(@Valid @RequestBody StudentRequest student) {
         return service.create(student);
     }
 
-    // UPDATE
     @PutMapping("/{id}")
-    public Student update(@PathVariable UUID id,
-                          @RequestBody Student student) {
+    public StudentResponse update(@PathVariable UUID id, @Valid @RequestBody StudentRequest student) {
         return service.update(id, student);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 
-    // SEARCH BY NAME
     @GetMapping("/search")
-    public List<Student> search(@RequestParam String full_name) {
-        return service.search(full_name);
+    public List<StudentResponse> search(@RequestParam String fullname) {
+        return service.search(fullname);
     }
-
 }

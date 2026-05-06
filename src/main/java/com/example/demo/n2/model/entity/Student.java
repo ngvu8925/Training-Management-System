@@ -1,47 +1,51 @@
 package com.example.demo.n2.model.entity;
 
-import jakarta.persistence.*;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 import org.hibernate.annotations.UuidGenerator;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "students")
 public class Student {
     @Id
     @GeneratedValue
-    @UuidGenerator   // Hibernate 6+
-    @Column(columnDefinition = "UNIQUEIDENTIFIER",
-            updatable = false,
-            nullable = false)
+    @UuidGenerator
+    @Column(columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
     private UUID id;
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
-	private UUID user_id;
-    
+    private UUID user_id;
+
     @Column(name = "code", length = 20)
     private String code;
-	
+
     @Column(name = "full_name", length = 100)
     private String fullname;
-    
+
     @Column(name = "date_of_birth")
-	private LocalDateTime date_of_birth;
-    
+    private LocalDate date_of_birth;
+
     @Column(name = "gender", length = 10)
     private String gender;
 
-	@Column(name = "personal_identification_number", length = 20)
+    @Column(name = "personal_identification_number", length = 20)
     private String personal_identification_number;
 
     @Column(name = "date_of_issue")
-    private LocalDateTime date_of_issue;
+    private LocalDate date_of_issue;
 
-	@Column(name = "card_place", length = 100)
+    @Column(name = "card_place", length = 100)
     private String card_place;
 
-	@Column(name = "address", length = 300)
+    @Column(name = "address", length = 300)
     private String address;
 
     @Column(name = "current_address", length = 300)
@@ -49,13 +53,13 @@ public class Student {
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID academic_year_year;
-    
+
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID department_id;
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID major_id;
-    
+
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID training_program_id;
 
@@ -66,7 +70,7 @@ public class Student {
     private UUID student_classe_id;
 
     @Column(name = "admission_year")
-    private LocalDateTime admission_year;
+    private LocalDate admission_year;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -88,37 +92,6 @@ public class Student {
 
     @Column(name = "is_active")
     private Boolean isActive;
-    
-
-    public Student() {}
-    
-    public Student(UUID user_id, String code, String fullname, LocalDateTime date_of_birth, String gender,
-                   String personal_identification_number, LocalDateTime date_of_issue, String card_place, String address, String current_address, UUID academic_year_year, UUID department_id,  UUID major_id, UUID training_program_id, String status, UUID student_classe_id, LocalDateTime admission_year, LocalDateTime createdAt, LocalDateTime updatedAt, UUID createdBy, UUID updatedBy, LocalDateTime deletedAt, UUID deletedBy, Boolean isActive) {    
-        this.user_id = user_id;
-        this.code = code;
-        this.fullname = fullname;
-        this.date_of_birth = date_of_birth;
-        this.gender = gender;
-        this.personal_identification_number = personal_identification_number;
-        this.date_of_issue = date_of_issue;
-        this.card_place = card_place;
-        this.address = address;
-        this.current_address = current_address;
-        this.academic_year_year = academic_year_year;
-        this.department_id = department_id;
-        this.major_id = major_id;
-        this.training_program_id = training_program_id;
-        this.status = status;
-        this.student_classe_id = student_classe_id;
-        this.admission_year = admission_year;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-        this.deletedAt = deletedAt;
-        this.deletedBy = deletedBy;
-        this.isActive = isActive;
-    }
 
     public UUID getId() {
         return id;
@@ -152,11 +125,11 @@ public class Student {
         this.fullname = fullname;
     }
 
-    public LocalDateTime getDate_of_birth() {
+    public LocalDate getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDate_of_birth(LocalDateTime date_of_birth) {
+    public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 
@@ -176,11 +149,11 @@ public class Student {
         this.personal_identification_number = personal_identification_number;
     }
 
-    public LocalDateTime getDate_of_issue() {
+    public LocalDate getDate_of_issue() {
         return date_of_issue;
     }
 
-    public void setDate_of_issue(LocalDateTime date_of_issue) {
+    public void setDate_of_issue(LocalDate date_of_issue) {
         this.date_of_issue = date_of_issue;
     }
 
@@ -256,11 +229,11 @@ public class Student {
         this.student_classe_id = student_classe_id;
     }
 
-    public LocalDateTime getAdmission_year() {
+    public LocalDate getAdmission_year() {
         return admission_year;
     }
 
-    public void setAdmission_year(LocalDateTime admission_year) {
+    public void setAdmission_year(LocalDate admission_year) {
         this.admission_year = admission_year;
     }
 
@@ -319,6 +292,4 @@ public class Student {
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
-
-    
 }
