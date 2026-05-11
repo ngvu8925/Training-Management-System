@@ -1,224 +1,216 @@
-# Project Title: University Training Management System
+# University Training Management System
 
-## Project Overview
+Hệ thống quản lý đào tạo đại học được xây dựng bằng Spring Boot, SQL Server và giao diện quản trị AdminLTE. Dự án tập trung vào các nghiệp vụ cốt lõi của phòng đào tạo như quản lý sinh viên, người dùng, vai trò, quyền hạn, năm học, học kỳ, học phần, lớp học phần và phân công giảng dạy.
 
-This project aims to develop a web platform for University Training Management System supply at University Viet Nam. The platform will leverage Spring Boot Web API for the backend, Bootstrap/ReactJS for the frontend, and SQL Server for the database.
+## Tổng quan
 
-## Objectives
+University Training Management System là một ứng dụng web hỗ trợ số hóa quy trình quản lý đào tạo trong môi trường đại học. Backend cung cấp RESTful API theo kiến trúc phân lớp, kết nối SQL Server thông qua Spring Data JPA, tích hợp validation dữ liệu đầu vào và tài liệu API bằng OpenAPI/Swagger UI.
 
-- To design and develop a centralized system for managing academic programs, courses, and student records efficiently.
-- To automate core training management processes such as course registration, scheduling, grading, and graduation evaluation.
-- To provide role-based access control for administrators, lecturers, and students to ensure data security and accuracy.
-- To improve transparency and real-time information access for academic progress, schedules, and notifications.
-- To enhance decision-making by providing reports and analytics on training performance and resource utilization.
+Dự án phù hợp để thể hiện trong CV các năng lực:
 
-## Scope
+- Thiết kế và triển khai REST API với Spring Boot.
+- Xây dựng mô hình dữ liệu quan hệ cho bài toán quản lý đào tạo.
+- Tổ chức source code theo mô hình Controller - Service - Repository - Entity - DTO.
+- Xử lý CRUD, tìm kiếm, lọc dữ liệu và validation request.
+- Tích hợp SQL Server, JPA/Hibernate và giao diện quản trị AdminLTE.
 
-- **Frontend**: Bootstrap/ReactJS application for users to interact with the platform.
-- **Backend**: Spring Boot Web API to handle business logic and data management.
-- **Database**: SQL Server to store and manage event and ticket information.
-- **Authentication & Authorization**: Secure login and role-based access control.
-- **Notifications**: Real-time updates and email notifications for users use Firebase,...
+## Tính năng chính
 
-## Task Board (Scrum)
+- Quản lý người dùng, vai trò, quyền và phân quyền theo vai trò.
+- Quản lý hồ sơ sinh viên, thêm/sửa/xóa/tìm kiếm sinh viên.
+- Quản lý môn học, năm học, học kỳ và trạng thái học kỳ đang hoạt động.
+- Quản lý lớp học phần, lọc theo học kỳ, môn học và trạng thái.
+- Quản lý sinh viên đăng ký vào lớp học phần.
+- Quản lý nhân sự/giảng viên và phân công giảng viên cho lớp học phần.
+- Cung cấp API dạng REST phục vụ tích hợp frontend.
+- Tích hợp giao diện quản trị tĩnh dựa trên AdminLTE.
+- Tài liệu hóa API thông qua Swagger UI.
 
-### Product Backlog
-**I. NHÓM QUẢN LÝ NGƯỜI DÙNG – PHÂN QUYỀN**
-| STT | Tên bảng         | Chức năng                                                          |
-| --- | ---------------- | ------------------------------------------------------------------ |
-| 1   | users            | Lưu tài khoản đăng nhập hệ thống cho SV, GV, giáo vụ, admin        |
-| 2   | roles            | Định nghĩa vai trò người dùng (ADMIN, GIAOVU, GIANGVIEN, SINHVIEN) |
-| 3   | user_roles       | Gán nhiều vai trò cho một user                                     |
-| 4   | permissions      | Danh sách quyền chức năng trong hệ thống                           |
-| 5   | role_permissions | Gán quyền cụ thể cho từng vai trò                                  |
+## Công nghệ sử dụng
 
-**II. NHÓM QUẢN LÝ SINH VIÊN**
-| STT | Tên bảng        | Chức năng                                                      |
-| --- | --------------- | -------------------------------------------------------------- |
-| 6   | students        | Thông tin hồ sơ sinh viên                                      |
-| 7   | student_status  | Trạng thái sinh viên (đang học, bảo lưu, thôi học, tốt nghiệp) |
-| 8   | student_classes | Gán sinh viên vào lớp hành chính                               |
+| Nhóm | Công nghệ |
+| --- | --- |
+| Backend | Java 21, Spring Boot 3.4.1 |
+| API | Spring Web, RESTful API |
+| Persistence | Spring Data JPA, Hibernate |
+| Database | Microsoft SQL Server |
+| Validation | Jakarta Bean Validation |
+| API Docs | Springdoc OpenAPI / Swagger UI |
+| Frontend assets | HTML, CSS, JavaScript, AdminLTE |
+| Build tool | Maven |
 
-**III. NHÓM QUẢN LÝ GIẢNG VIÊN – NHÂN SỰ**
-| STT | Tên bảng    | Chức năng                                   |
-| --- | ----------- | ------------------------------------------- |
-| 9   | lecturers   | Thông tin giảng viên                        |
-| 10  | departments | Khoa / Viện quản lý giảng viên và ngành học |
-| 11  | positions   | Chức danh giảng viên (GV, ThS, TS, PGS…)    |
+## Kiến trúc dự án
 
-**IV. NHÓM QUẢN LÝ CHƯƠNG TRÌNH – MÔN HỌC**
-| STT | Tên bảng             | Chức năng                                            |
-| --- | -------------------- | ---------------------------------------------------- |
-| 12  | majors               | Ngành đào tạo (Kỹ thuật máy tính, Trí tuệ nhân tạo…) |
-| 13  | training_programs    | Chương trình đào tạo theo ngành và khóa              |
-| 14  | courses              | Môn học / học phần                                   |
-| 15  | course_prerequisites | Môn học tiên quyết                                   |
+```text
+src/main/java/com/example/demo
+|-- DemoApplication.java
+|-- n1                          # User, role, permission
+|   |-- controller
+|   |-- model/entity
+|   |-- repository
+|   `-- service
+|-- n2                          # Student management
+|   |-- controller
+|   |-- dto
+|   |-- exception
+|   |-- model/entity
+|   |-- repository
+|   `-- service
+|-- n5                          # Academic year, semester, course section
+|   |-- controller
+|   |-- dto
+|   |-- exception
+|   |-- model/entity
+|   |-- repository
+|   `-- service
+`-- web                         # Static resource configuration
+```
 
-**V. NHÓM QUẢN LÝ HỌC KỲ – LỚP HỌC PHẦN**
-| STT | Tên bảng                | Chức năng                             |
-| --- | ----------------------- | ------------------------------------- |
-| 16  | semesters               | Học kỳ (HK1 2024–2025…)               |
-| 17  | course_classes          | Lớp học phần mở trong học kỳ          |
-| 18  | lecturer_course_classes | Phân công giảng viên dạy lớp học phần |
+## Một số API tiêu biểu
 
-**VI. NHÓM ĐĂNG KÝ HỌC PHẦN**
-| STT | Tên bảng             | Chức năng                  |
-| --- | -------------------- | -------------------------- |
-| 19  | course_registrations | Sinh viên đăng ký học phần |
-| 20  | registration_periods | Đợt đăng ký học phần       |
+| Module | Endpoint | Mô tả |
+| --- | --- | --- |
+| Users | `GET /api/users` | Lấy danh sách người dùng |
+| Users | `POST /api/users` | Tạo người dùng |
+| Users | `POST /api/users/{userId}/roles/{roleId}` | Gán vai trò cho người dùng |
+| Roles | `POST /api/roles/{roleId}/permissions/{permId}` | Gán quyền cho vai trò |
+| Students | `GET /api/students` | Lấy danh sách sinh viên |
+| Students | `GET /api/students/search?fullname=...` | Tìm kiếm sinh viên theo họ tên |
+| Students | `POST /api/students` | Tạo hồ sơ sinh viên |
+| Students | `PUT /api/students/{id}` | Cập nhật hồ sơ sinh viên |
+| Students | `DELETE /api/students/{id}` | Xóa sinh viên |
+| Academic Years | `GET /api/academic-years` | Quản lý năm học |
+| School Years | `GET /api/school-years` | Quản lý khóa/năm đào tạo |
+| Semesters | `GET /api/semesters/active` | Lấy học kỳ đang hoạt động |
+| Course Sections | `GET /api/course-sections/filter` | Lọc lớp học phần |
+| Course Sections | `PUT /api/course-sections/{id}/status` | Cập nhật trạng thái lớp học phần |
+| Lecturer Assignment | `GET /api/lecturer-course-classes/schedule` | Tra cứu lịch phân công giảng dạy |
 
-**VII. NHÓM QUẢN LÝ LỊCH HỌC – PHÒNG HỌC**
-| STT | Tên bảng  | Chức năng                          |
-| --- | --------- | ---------------------------------- |
-| 21  | rooms     | Phòng học                          |
-| 22  | buildings | Tòa nhà / khu giảng đường          |
-| 23  | schedules | Lịch học chi tiết cho lớp học phần |
+## Cơ sở dữ liệu
 
-**VIII. NHÓM ĐIỂM – ĐÁNH GIÁ HỌC TẬP**
-| STT | Tên bảng         | Chức năng                                       |
-| --- | ---------------- | ----------------------------------------------- |
-| 24  | grade_components | Thành phần điểm (chuyên cần, giữa kỳ, cuối kỳ…) |
-| 25  | student_grades   | Điểm sinh viên theo học phần                    |
-| 26  | grade_scales     | Thang điểm (10, chữ A–F…)                       |
+Script khởi tạo cơ sở dữ liệu nằm tại:
 
-**IX. NHÓM HỌC PHÍ – TÀI CHÍNH**
-| STT | Tên bảng        | Chức năng                               |
-| --- | --------------- | --------------------------------------- |
-| 27  | tuition_fees    | Mức học phí theo tín chỉ / chương trình |
-| 28  | student_tuition | Học phí sinh viên theo học kỳ           |
-| 29  | payments        | Lịch sử thanh toán học phí              |
+```text
+document/database/script_schoolmanager.sql
+```
 
-**X. NHÓM QUẢN LÝ THI – KHẢO THÍ**
-| STT | Tên bảng   | Chức năng                                  |
-| --- | ---------- | ------------------------------------------ |
-| 30  | exam_types | Loại kỳ thi (giữa kỳ, cuối kỳ, cải thiện…) |
-| 31  | exams      | Lịch thi                                   |
-| 32  | exam_rooms | Phân phòng thi                             |
+Database được thiết kế cho nghiệp vụ quản lý đào tạo, bao gồm các nhóm bảng chính:
 
-**XI. NHÓM QUẢN LÝ TỐT NGHIỆP**
-| STT | Tên bảng              | Chức năng                |
-| --- | --------------------- | ------------------------ |
-| 33  | graduation_conditions | Điều kiện xét tốt nghiệp |
-| 34  | graduation_results    | Kết quả xét tốt nghiệp   |
+- Người dùng, vai trò, quyền hạn.
+- Sinh viên và trạng thái học tập.
+- Giảng viên, nhân sự, khoa/bộ môn.
+- Môn học, năm học, học kỳ.
+- Lớp học phần, đăng ký học phần, phân công giảng viên.
+- Phòng học, tòa nhà, lịch học và các dữ liệu mở rộng.
 
-**XII. NHÓM THÔNG BÁO – HỆ THỐNG**
-| STT | Tên bảng      | Chức năng                           |
-| --- | ------------- | ----------------------------------- |
-| 35  | notifications | Thông báo hệ thống                  |
-| 36  | logs          | Nhật ký hoạt động (audit, truy vết) |
-| 37  | settings      | Cấu hình hệ thống                   |
+## Cài đặt và chạy dự án
 
-**XIII. NHÓM MỞ RỘNG THƯỜNG DÙNG**
-| STT | Tên bảng   | Chức năng                     |
-| --- | ---------- | ----------------------------- |
-| 38  | documents  | Tài liệu học tập              |
-| 39  | feedbacks  | Đánh giá giảng viên / môn học |
-| 40  | attendance | Điểm danh sinh viên           |
+### Yêu cầu môi trường
 
+- Java 21+
+- Maven 3.9+ hoặc Maven Wrapper có sẵn trong dự án
+- SQL Server
+- Git
 
-### Sprint 1
+### 1. Clone repository
 
-| Task ID | Description                        | Assignee    | Priority | Status      | Start Date | Due Date   |
-|--------|------------------------------------|-------------|----------|-------------|------------|------------|
-| 1      | Setup project repository           | Your Name   | High     | Done        | 2026-01-29 | 2026-02-05 |
-| 2      | Design database schema             | Developer 1 | High     | In Progress | 2026-01-29 | 2026-02-05 |
-| 3      | Develop user authentication module | Developer 2 | High     | Pending     | 2026-01-29 | 2026-02-05 |
-| 4      | Develop login                      | Developer 2 | High     | Pending     | 2026-01-29 | 2026-02-05 |
+```bash
+git clone <repository-url>
+cd quanlydaotao
+```
 
-### Sprint 2
+### 2. Tạo database
 
-| Task ID | Description                                   | Assignee    | Priority | Status  | Start Date | Due Date   |
-|--------:|-----------------------------------------------|-------------|----------|---------|------------|------------|
-| 1       | Create components system                      | Developer 1 | Medium   | Pending | 2026-01-29 | 2026-02-05 |
-| 2       | Implement API for system                      | Developer 2 | High     | Pending | 2026-01-29 | 2026-02-05 |
-| 3       | Setup CI/CD pipeline                          | DevOps      | Medium   | Pending | 2026-01-29 | 2026-02-05 |
+Tạo database SQL Server tên `schoolmanager`, sau đó chạy script:
 
-### Sprint 3
+```text
+document/database/script_schoolmanager.sql
+```
 
-| Task ID | Description                                   | Assignee    | Priority | Status  | Start Date | Due Date   |
-|--------:|-----------------------------------------------|-------------|----------|---------|------------|------------|
-| 1       | Create components system                      | Developer 1 | Medium   | Pending | 2026-01-29 | 2026-02-05 |
-| 2       | Implement API for system                      | Developer 2 | High     | Pending | 2026-01-29 | 2026-02-05 |
-| 3       | Setup CI/CD pipeline                          | DevOps      | Medium   | Pending | 2026-01-29 | 2026-02-05 |
+### 3. Cấu hình kết nối database
 
-### Sprint 4
+Cập nhật file:
 
-| Task ID | Description                                   | Assignee    | Priority | Status  | Start Date | Due Date   |
-|--------:|-----------------------------------------------|-------------|----------|---------|------------|------------|
-| 1       | Create components system                      | Developer 1 | Medium   | Pending | 2026-01-29 | 2026-02-05 |
-| 2       | Implement API for system                      | Developer 2 | High     | Pending | 2026-01-29 | 2026-02-05 |
-| 3       | Setup CI/CD pipeline                          | DevOps      | Medium   | Pending | 2026-01-29 | 2026-02-05 |
+```text
+src/main/resources/application.properties
+```
 
-### Sprint 5
+Ví dụ:
 
-| Task ID | Description                                   | Assignee    | Priority | Status  | Start Date | Due Date   |
-|--------:|-----------------------------------------------|-------------|----------|---------|------------|------------|
-| 1       | Create components system                      | Developer 1 | Medium   | Pending | 2026-01-29 | 2026-02-05 |
-| 2       | Implement API for system                      | Developer 2 | High     | Pending | 2026-01-29 | 2026-02-05 |
-| 3       | Setup CI/CD pipeline                          | DevOps      | Medium   | Pending | 2026-01-29 | 2026-02-05 |
+```properties
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=schoolmanager;encrypt=true;trustServerCertificate=true;
+spring.datasource.username=sa
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=none
+```
 
-### Sprint 6
+### 4. Chạy ứng dụng
 
-| Task ID | Description                                   | Assignee    | Priority | Status  | Start Date | Due Date   |
-|--------:|-----------------------------------------------|-------------|----------|---------|------------|------------|
-| 1       | Create components system                      | Developer 1 | Medium   | Pending | 2026-01-29 | 2026-02-05 |
-| 2       | Implement API for system                      | Developer 2 | High     | Pending | 2026-01-29 | 2026-02-05 |
-| 3       | Setup CI/CD pipeline                          | DevOps      | Medium   | Pending | 2026-01-29 | 2026-02-05 |
+Trên Windows:
 
+```bash
+mvnw.cmd spring-boot:run
+```
 
-## Milestones
+Trên macOS/Linux:
 
-| Milestone ID | Description                                         | Due Date   | Status      |
-|-------------:|-----------------------------------------------------|------------|-------------|
-| 1            | Initial project setup complete                      | 2026-01-01 | Completed   |
-| 2            | Database schema design complete                     | 2026-02-05 | In Progress |
-| 3            | User authentication module development complete     | 2026-02-15 | Pending     |
-| 4            | UI components                                       | 2026-08-17 | Pending     |
-| 5            | API for management complete                         | 2026-08-19 | Pending     |
-| 6            | CI/CD pipeline setup complete                       | 2026-08-25 | Pending     |
-| 7            | MVP ready for internal testing                      | 2026-09-01 | Pending     |
-## Notes:
-- Project repository setup is high priority.
-- Database schema design should start immediately.
-- Authentication module development planned for next week.
+```bash
+./mvnw spring-boot:run
+```
 
-### Sprint Review Meeting (2025-02-05)
+Ứng dụng mặc định chạy tại:
 
-**Attendees:** Your Name, Developer 1, Developer 2, DevOps, QA
+```text
+http://localhost:8080
+```
 
-**Agenda:**
-- Review completed tasks in Sprint 1
-- Discuss challenges faced during the sprint
-- Plan for Sprint 2
+Swagger UI:
 
-**Notes:**
-- Project repository setup completed successfully.
-- Database schema design is in progress, expected to complete on time.
-- Authentication module development to begin tomorrow.
+```text
+http://localhost:8080/swagger-ui/index.html
+```
 
-## Issues and Risks
+## Giao diện quản trị
 
-| Issue ID | Description                                   | Severity | Status  | Mitigation Plan                         |
-|---------|-----------------------------------------------|----------|---------|-----------------------------------------|
-| 1       | Delay in database schema design               | Medium   | Open    | Adjust timeline, reassign tasks          |
-| 2       | Authentication module integration issues      | High     | Pending | Conduct code reviews, add tests          |
+Dự án có tích hợp AdminLTE trong thư mục:
 
-## Useful Links
+```text
+src/main/resources/static/adminlte
+```
 
-- [Project Repository](https://github.com/....)
-- [Design Mockups](https://www.figma.com/file/XXXXXX/Project-Designs)
-- [Project analysis] https://docs.google.com/spreadsheets/d/1hEFl53luJZqVWlzLvfg0kmV_pNOnnnARoiAl3UasRRw/edit?usp=sharing
-- [API Documentation](https://project-docs.com/api)
-- [Check payment](https://payos.vn/)
-- [Official Website](https://spring.io/)
-- [Build, deploy, and scale]-https://render.com/
-- [Build, deploy, and scale]-https://railway.com/
----
+Một số trang tĩnh đáng chú ý:
 
-### Notes
+- `/students/students.html`
+- `/n5/manage-n5.html`
+- `/index.html`
 
-- Regularly update this README.md to reflect the current state of the project.
-- Use GitHub Issues to track detailed tasks and bugs.
-- Utilize GitHub Projects for more advanced project management.
+## Điểm nổi bật kỹ thuật
 
+- Thiết kế API theo chuẩn REST với các HTTP method rõ ràng.
+- Tách DTO request/response để kiểm soát dữ liệu trao đổi qua API.
+- Sử dụng `@Valid` và Jakarta Validation để kiểm tra dữ liệu đầu vào.
+- Tổ chức service layer riêng để xử lý nghiệp vụ và giảm phụ thuộc giữa controller và repository.
+- Sử dụng UUID làm khóa định danh cho nhiều entity.
+- Hỗ trợ tìm kiếm, lọc và cập nhật trạng thái ở các nghiệp vụ quan trọng.
+- Tài liệu API tự động bằng Springdoc OpenAPI.
 
+## Định hướng phát triển
+
+- Hoàn thiện xác thực và phân quyền bằng Spring Security/JWT.
+- Bổ sung unit test và integration test cho service/controller.
+- Chuẩn hóa response format và error response toàn hệ thống.
+- Thêm dashboard thống kê đào tạo.
+- Triển khai CI/CD và deploy lên môi trường cloud.
+- Tách frontend thành ứng dụng SPA độc lập nếu cần mở rộng trải nghiệm người dùng.
+
+## Vai trò cá nhân
+
+- Phân tích nghiệp vụ quản lý đào tạo đại học.
+- Thiết kế database và mô hình entity.
+- Xây dựng REST API với Spring Boot, JPA và SQL Server.
+- Triển khai các module quản lý sinh viên, học kỳ, học phần, lớp học phần và phân quyền.
+- Tích hợp giao diện quản trị AdminLTE và tài liệu API Swagger.
+
+## Tác giả
+
+Dự án được phát triển nhằm phục vụ học tập, rèn luyện kỹ năng xây dựng backend thực tế và bổ sung portfolio/CV cho vị trí Java Backend Developer.

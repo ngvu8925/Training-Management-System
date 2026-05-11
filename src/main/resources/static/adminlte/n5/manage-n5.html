@@ -126,7 +126,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-ay" placeholder="Tìm kiếm niên khóa..." oninput="searchData('ay')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm bắt đầu</th><th>Năm kết thúc</th><th>Trạng thái</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm học</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-ay"></tbody>
                     </table></div>
                   </div>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-sy" placeholder="Tìm kiếm năm học..." oninput="searchData('sy')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã</th><th>Tên</th><th>Niên khóa</th><th>Chủ đề</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã</th><th>Tên</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Ghi chú</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-sy"></tbody>
                     </table></div>
                   </div>
@@ -369,6 +369,22 @@
         return val ? '<span class="n5-badge n5-badge-active">Đang hiệu lực</span>' : '<span class="n5-badge n5-badge-inactive">Ngừng hiệu lực</span>';
       }
 
+      function dateOnly(val) {
+        return val ? String(val).split("T")[0] : "";
+      }
+
+      function academicStartYear(item) {
+        if (item?.year) return String(item.year).split("-")[0] || "";
+        if (item?.startDate) return dateOnly(item.startDate).split("-")[0] || "";
+        return "";
+      }
+
+      function academicEndYear(item) {
+        if (item?.year) return String(item.year).split("-")[1] || "";
+        if (item?.endDate) return dateOnly(item.endDate).split("-")[0] || "";
+        return "";
+      }
+
       function renderTable(tab, data) {
         const tbody = document.getElementById("table-" + tab);
         if (!data.length) {
@@ -378,8 +394,8 @@
         let html = "";
         data.forEach(x => {
           html += "<tr>";
-          if (tab === "ay") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.startYear || ""}</td><td>${x.endYear || ""}</td><td>${renderBadge("status", x.status)}</td>`;
-          if (tab === "sy") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.academicYearName || ""}</td><td>${x.theme || ""}</td>`;
+          if (tab === "ay") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.year || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td>`;
+          if (tab === "sy") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td><td>${x.note || x.description || ""}</td>`;
           if (tab === "sem") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.schoolYearName || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td>`;
           if (tab === "cs") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.academicYear || ""}</td><td>${x.classType || ""}</td><td>${x.maxStudents || ""}</td><td>${renderBadge("status", x.status)}</td><td>${fmtDt(x.registrationStart)}</td>`;
           if (tab === "scs") {
@@ -423,18 +439,23 @@
         let f = "";
 
         if (tab === "ay") {
+          const startYear = academicStartYear(item);
+          const endYear = academicEndYear(item);
           f = `
             <div class="mb-3"><label class="form-label">Mã niên khóa</label><input class="form-control" id="v-code" value="${item?.code || ""}"></div>
             <div class="mb-3"><label class="form-label">Tên niên khóa</label><input class="form-control" id="v-name" value="${item?.name || ""}"></div>
-            <div class="row"><div class="col-6 mb-3"><label class="form-label">Năm bắt đầu</label><input class="form-control" id="v-sy" type="number" value="${item?.startYear || ""}"></div>
-            <div class="col-6 mb-3"><label class="form-label">Năm kết thúc</label><input class="form-control" id="v-ey" type="number" value="${item?.endYear || ""}"></div></div>
-            <div class="mb-3"><label class="form-label">Trạng thái</label><select class="form-select" id="v-st"><option value="active" ${item?.status === "active" ? "selected" : ""}>Đang hoạt động</option><option value="inactive" ${item?.status === "inactive" ? "selected" : ""}>Ngừng hoạt động</option></select></div>`;
+            <div class="row"><div class="col-6 mb-3"><label class="form-label">Năm bắt đầu</label><input class="form-control" id="v-sy" type="number" min="1900" max="2200" value="${startYear}"></div>
+            <div class="col-6 mb-3"><label class="form-label">Năm kết thúc</label><input class="form-control" id="v-ey" type="number" min="1900" max="2200" value="${endYear}"></div></div>
+            <div class="row"><div class="col-6 mb-3"><label class="form-label">Ngày bắt đầu</label><input class="form-control" id="v-sd" type="date" value="${dateOnly(item?.startDate) || (startYear ? `${startYear}-09-01` : "")}"></div>
+            <div class="col-6 mb-3"><label class="form-label">Ngày kết thúc</label><input class="form-control" id="v-ed" type="date" value="${dateOnly(item?.endDate) || (endYear ? `${endYear}-06-30` : "")}"></div></div>
+            <div class="mb-3"><label class="form-label">Mô tả</label><input class="form-control" id="v-desc" value="${item?.description || ""}"></div>`;
         } else if (tab === "sy") {
-          const opts = syDropdownData.map(a => `<option value="${a.id}" ${item?.academicYearId === a.id ? "selected" : ""}>${a.name}</option>`).join("");
           f = `<div class="mb-3"><label class="form-label">Mã năm học</label><input class="form-control" id="v-code" value="${item?.code || ""}"></div>
           <div class="mb-3"><label class="form-label">Tên năm học</label><input class="form-control" id="v-name" value="${item?.name || ""}"></div>
-          <div class="mb-3"><label class="form-label">Niên khóa</label><select class="form-select" id="v-ayId"><option value="">-- Chọn niên khóa --</option>${opts}</select></div>
-          <div class="mb-3"><label class="form-label">Chủ đề / ghi chú</label><input class="form-control" id="v-theme" value="${item?.theme || ""}"></div>`;
+          <div class="row"><div class="col-6 mb-3"><label class="form-label">Ngày bắt đầu</label><input class="form-control" id="v-sd" type="date" value="${dateOnly(item?.startDate)}"></div>
+          <div class="col-6 mb-3"><label class="form-label">Ngày kết thúc</label><input class="form-control" id="v-ed" type="date" value="${dateOnly(item?.endDate)}"></div></div>
+          <div class="mb-3"><label class="form-label">Mô tả</label><input class="form-control" id="v-desc" value="${item?.description || ""}"></div>
+          <div class="mb-3"><label class="form-label">Ghi chú</label><input class="form-control" id="v-note" value="${item?.note || ""}"></div>`;
         } else if (tab === "sem") {
           const opts = schDropdownData.map(a => `<option value="${a.id}" ${item?.schoolYearId === a.id ? "selected" : ""}>${a.name}</option>`).join("");
           f = `<div class="mb-3"><label class="form-label">Mã học kỳ</label><input class="form-control" id="v-code" value="${item?.code || ""}"></div>
@@ -494,8 +515,28 @@
 
       async function saveData() {
         let payload = { isActive: document.getElementById("v-active").checked }, tab = currentTab;
-        if (tab === "ay") payload = { ...payload, code: document.getElementById("v-code").value, name: document.getElementById("v-name").value, startYear: document.getElementById("v-sy").value, endYear: document.getElementById("v-ey").value, status: document.getElementById("v-st").value };
-        else if (tab === "sy") payload = { ...payload, code: document.getElementById("v-code").value, name: document.getElementById("v-name").value, academicYearId: document.getElementById("v-ayId").value, theme: document.getElementById("v-theme").value };
+        if (tab === "ay") {
+          const startYear = document.getElementById("v-sy").value.trim();
+          const endYear = document.getElementById("v-ey").value.trim();
+          payload = {
+            ...payload,
+            code: document.getElementById("v-code").value.trim(),
+            name: document.getElementById("v-name").value.trim(),
+            year: startYear && endYear ? `${startYear}-${endYear}` : "",
+            description: document.getElementById("v-desc").value.trim() || null,
+            startDate: document.getElementById("v-sd").value || (startYear ? `${startYear}-09-01` : null),
+            endDate: document.getElementById("v-ed").value || (endYear ? `${endYear}-06-30` : null)
+          };
+        }
+        else if (tab === "sy") payload = {
+          ...payload,
+          code: document.getElementById("v-code").value.trim(),
+          name: document.getElementById("v-name").value.trim(),
+          description: document.getElementById("v-desc").value.trim() || null,
+          note: document.getElementById("v-note").value.trim() || null,
+          startDate: document.getElementById("v-sd").value || null,
+          endDate: document.getElementById("v-ed").value || null
+        };
         else if (tab === "sem") payload = { ...payload, code: document.getElementById("v-code").value, name: document.getElementById("v-name").value, schoolYearId: document.getElementById("v-syId").value, startDate: document.getElementById("v-sd").value || null, endDate: document.getElementById("v-ed").value || null };
         else if (tab === "cs") payload = { ...payload, code: document.getElementById("v-code").value, name: document.getElementById("v-name").value, semesterId: document.getElementById("v-semId").value || null, academicYear: document.getElementById("v-ayear").value, courseId: document.getElementById("v-cId").value || null, employeeId: document.getElementById("v-eId").value || null, classType: document.getElementById("v-type").value, maxStudents: document.getElementById("v-max").value || null, status: document.getElementById("v-st").value };
         else if (tab === "scs") payload = { ...payload, studentId: document.getElementById("v-sid").value, courseSectionId: document.getElementById("v-cid").value, status: document.getElementById("v-st").value };
