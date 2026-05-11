@@ -1,0 +1,107 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Người dùng" as User
+actor "Quản trị hệ thống" as Admin
+actor "Phòng đào tạo" as Academic
+actor "Giáo vụ khoa" as FacultyStaff
+actor "Trưởng khoa/\nTrưởng bộ môn" as Head
+actor "Giảng viên" as Lecturer
+actor "Sinh viên" as Student
+actor "Cố vấn học tập" as Advisor
+
+User <|-- Admin
+User <|-- Academic
+User <|-- FacultyStaff
+User <|-- Head
+User <|-- Lecturer
+User <|-- Student
+User <|-- Advisor
+
+rectangle "Hệ thống quản lý đào tạo" {
+  usecase "Quản lý người dùng" as UC_User
+  usecase "Quản lý vai trò" as UC_Role
+  usecase "Quản lý quyền" as UC_Permission
+  usecase "Gán vai trò cho người dùng" as UC_AssignRole
+  usecase "Gán quyền cho vai trò" as UC_AssignPermission
+
+  usecase "Quản lý sinh viên" as UC_Student
+  usecase "Tìm kiếm sinh viên" as UC_SearchStudent
+
+  usecase "Quản lý học phần" as UC_Course
+  usecase "Quản lý lớp học phần" as UC_CourseSection
+  usecase "Tìm kiếm/lọc lớp học phần" as UC_FilterClass
+  usecase "Cập nhật trạng thái lớp học phần" as UC_ClassStatus
+
+  usecase "Quản lý năm học" as UC_SchoolYear
+  usecase "Quản lý niên khóa" as UC_AcademicYear
+  usecase "Quản lý học kỳ" as UC_Semester
+  usecase "Xem học kỳ đang hoạt động" as UC_ActiveSemester
+
+  usecase "Xem danh sách giảng viên/nhân viên" as UC_Employee
+  usecase "Phân công giảng viên\ncho lớp học phần" as UC_AssignLecturer
+  usecase "Xem lịch giảng dạy" as UC_TeachingSchedule
+
+  usecase "Đăng ký học phần" as UC_Enroll
+  usecase "Xem danh sách đăng ký\ncủa lớp học phần" as UC_ViewEnrollment
+  usecase "Cập nhật/Hủy đăng ký học phần" as UC_UpdateEnrollment
+}
+
+Admin --> UC_User
+Admin --> UC_Role
+Admin --> UC_Permission
+Admin --> UC_AssignRole
+Admin --> UC_AssignPermission
+
+Academic --> UC_Student
+Academic --> UC_SearchStudent
+Academic --> UC_Course
+Academic --> UC_CourseSection
+Academic --> UC_FilterClass
+Academic --> UC_ClassStatus
+Academic --> UC_SchoolYear
+Academic --> UC_AcademicYear
+Academic --> UC_Semester
+Academic --> UC_ActiveSemester
+Academic --> UC_Employee
+Academic --> UC_AssignLecturer
+Academic --> UC_ViewEnrollment
+
+FacultyStaff --> UC_Student
+FacultyStaff --> UC_SearchStudent
+FacultyStaff --> UC_CourseSection
+FacultyStaff --> UC_FilterClass
+FacultyStaff --> UC_AssignLecturer
+FacultyStaff --> UC_ViewEnrollment
+
+Head --> UC_Course
+Head --> UC_CourseSection
+Head --> UC_ClassStatus
+Head --> UC_AssignLecturer
+
+Lecturer --> UC_TeachingSchedule
+Lecturer --> UC_ViewEnrollment
+
+Student --> UC_FilterClass
+Student --> UC_Enroll
+Student --> UC_UpdateEnrollment
+
+Advisor --> UC_SearchStudent
+Advisor --> UC_FilterClass
+Advisor --> UC_ViewEnrollment
+
+UC_AssignRole ..> UC_User : <<include>>
+UC_AssignRole ..> UC_Role : <<include>>
+UC_AssignPermission ..> UC_Role : <<include>>
+UC_AssignPermission ..> UC_Permission : <<include>>
+UC_FilterClass ..> UC_CourseSection : <<extend>>
+UC_ClassStatus ..> UC_CourseSection : <<extend>>
+UC_ActiveSemester ..> UC_Semester : <<extend>>
+UC_AssignLecturer ..> UC_CourseSection : <<include>>
+UC_TeachingSchedule ..> UC_AssignLecturer : <<include>>
+UC_ViewEnrollment ..> UC_Enroll : <<extend>>
+UC_UpdateEnrollment ..> UC_Enroll : <<extend>>
+
+@enduml

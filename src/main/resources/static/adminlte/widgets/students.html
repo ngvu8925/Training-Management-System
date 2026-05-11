@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sach sinh vien</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="../css/adminlte.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav class="app-header navbar navbar-expand bg-body">
+        <div class="container-fluid">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+              <a href="../index.html" class="nav-link">Trang chu</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="../index.html" class="brand-link">
+            <img
+              src="../assets/img/AdminLTELogo.png"
+              alt="AdminLTE Logo"
+              class="brand-image opacity-75 shadow"
+            />
+            <span class="brand-text fw-light">Quan ly dao tao</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" data-accordion="false">
+              <li class="nav-item">
+                <a href="../index.html" class="nav-link">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+              <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon bi bi-people-fill"></i>
+                  <p>
+                    Quan ly sinh vien
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../widgets/students.html" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Danh sach sinh vien</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="../n5/manage-n5.html" class="nav-link">
+                  <i class="nav-icon bi bi-book"></i>
+                  <p>Quản lý Đào tạo (N5)</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">Danh sach sinh vien</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-title mb-0">Module sinh vien</div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                  <i class="bi bi-plus-lg"></i>
+                  Them sinh vien
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <input
+                      type="text"
+                      id="searchInput"
+                      class="form-control"
+                      placeholder="Tim theo ho ten..."
+                      oninput="searchStudents()"
+                    />
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover align-middle">
+                    <thead>
+                      <tr>
+                        <th>Ma SV</th>
+                        <th>Ho ten</th>
+                        <th>Gioi tinh</th>
+                        <th>Ngay sinh</th>
+                        <th>Dia chi</th>
+                        <th>Trang thai</th>
+                        <th style="width: 120px">Thao tac</th>
+                      </tr>
+                    </thead>
+                    <tbody id="studentTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Them sinh vien</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="studentId" />
+            <div class="mb-3">
+              <label class="form-label" for="code">Ma sinh vien</label>
+              <input class="form-control" id="code" maxlength="20" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="fullname">Ho ten</label>
+              <input class="form-control" id="fullname" maxlength="100" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="gender">Gioi tinh</label>
+              <select class="form-select" id="gender">
+                <option value="">Chon gioi tinh</option>
+                <option value="Nam">Nam</option>
+                <option value="Nu">Nu</option>
+                <option value="Khac">Khac</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="dateOfBirth">Ngay sinh</label>
+              <input class="form-control" id="dateOfBirth" type="date" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="address">Dia chi</label>
+              <input class="form-control" id="address" maxlength="300" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="status">Trang thai</label>
+              <select class="form-select" id="status">
+                <option value="studying">studying</option>
+                <option value="graduated">graduated</option>
+                <option value="suspended">suspended</option>
+              </select>
+            </div>
+            <div class="text-danger small" id="formError"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dong</button>
+            <button type="button" class="btn btn-primary" onclick="saveStudent()">Luu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/adminlte.js"></script>
+    <script>
+      const API_URL = "http://localhost:8080/api/students";
+      const studentModal = new bootstrap.Modal(document.getElementById("studentModal"));
+
+      async function loadStudents(url = API_URL) {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const html = data.map((student) => `
+          <tr>
+            <td>${escapeHtml(student.code ?? "")}</td>
+            <td>${escapeHtml(student.fullname ?? "")}</td>
+            <td>${escapeHtml(student.gender ?? "")}</td>
+            <td>${formatDate(student.dateOfBirth)}</td>
+            <td>${escapeHtml(student.address ?? "")}</td>
+            <td>${renderStatus(student.status)}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-1" onclick='editStudent(${JSON.stringify(student)})'>
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.id}')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `).join("");
+
+        document.getElementById("studentTable").innerHTML = html || `
+          <tr>
+            <td colspan="7" class="text-center text-muted">Khong co du lieu</td>
+          </tr>
+        `;
+      }
+
+      async function searchStudents() {
+        const keyword = document.getElementById("searchInput").value.trim();
+        if (!keyword) {
+          await loadStudents();
+          return;
+        }
+
+        await loadStudents(`${API_URL}/search?fullname=${encodeURIComponent(keyword)}`);
+      }
+
+      function openAddModal() {
+        document.getElementById("modalTitle").innerText = "Them sinh vien";
+        document.getElementById("studentId").value = "";
+        document.getElementById("code").value = "";
+        document.getElementById("fullname").value = "";
+        document.getElementById("gender").value = "";
+        document.getElementById("dateOfBirth").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("status").value = "studying";
+        document.getElementById("formError").innerText = "";
+        studentModal.show();
+      }
+
+      function editStudent(student) {
+        document.getElementById("modalTitle").innerText = "Sua sinh vien";
+        document.getElementById("studentId").value = student.id ?? "";
+        document.getElementById("code").value = student.code ?? "";
+        document.getElementById("fullname").value = student.fullname ?? "";
+        document.getElementById("gender").value = student.gender ?? "";
+        document.getElementById("dateOfBirth").value = student.dateOfBirth ?? "";
+        document.getElementById("address").value = student.address ?? "";
+        document.getElementById("status").value = student.status ?? "studying";
+        document.getElementById("formError").innerText = "";
+        studentModal.show();
+      }
+
+      async function saveStudent() {
+        const id = document.getElementById("studentId").value;
+        const payload = {
+          code: document.getElementById("code").value.trim(),
+          fullname: document.getElementById("fullname").value.trim(),
+          gender: document.getElementById("gender").value,
+          dateOfBirth: document.getElementById("dateOfBirth").value || null,
+          address: document.getElementById("address").value.trim(),
+          status: document.getElementById("status").value,
+          isActive: true
+        };
+
+        const response = await fetch(id ? `${API_URL}/${id}` : API_URL, {
+          method: id ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const error = await response.json().catch(() => ({ message: "Khong luu duoc sinh vien" }));
+          document.getElementById("formError").innerText = error.message ?? "Khong luu duoc sinh vien";
+          return;
+        }
+
+        studentModal.hide();
+        await loadStudents();
+      }
+
+      async function deleteStudent(id) {
+        if (!confirm("Ban co chac muon xoa sinh vien nay?")) {
+          return;
+        }
+
+        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (!response.ok) {
+          alert("Xoa sinh vien that bai");
+          return;
+        }
+
+        await loadStudents();
+      }
+
+      function formatDate(value) {
+        return value ? new Date(value).toLocaleDateString("vi-VN") : "";
+      }
+
+      function renderStatus(status) {
+        const color = status === "graduated"
+          ? "success"
+          : status === "suspended"
+            ? "warning"
+            : "primary";
+        return `<span class="badge text-bg-${color}">${escapeHtml(status ?? "")}</span>`;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      loadStudents();
+    </script>
+  </body>
+</html>
