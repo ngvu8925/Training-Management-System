@@ -65,7 +65,7 @@
                   <p>Dashboard</p>
                 </a>
               </li>
-              <li class="nav-header">HỆ THỐNG</li>
+              <li class="nav-header">MỤC LỤC</li>
               <li class="nav-item menu-open">
                 <a href="javascript:void(0)" class="nav-link active">
                   <i class="nav-icon bi bi-mortarboard"></i>
@@ -75,12 +75,12 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('ay')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Niên khóa</p></a></li>
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('sy')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Năm học</p></a></li>
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('sem')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Học kỳ</p></a></li>
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('cs')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Lớp học phần</p></a></li>
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('scs')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Sinh viên lớp học phần</p></a></li>
-                  <li class="nav-item"><a href="javascript:void(0)" onclick="switchTab('lcc')" class="nav-link"><i class="nav-icon bi bi-record-circle"></i><p>Giảng viên lớp học phần</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="ay" onclick="switchTab('ay')" class="nav-link active"><i class="nav-icon bi bi-calendar3"></i><p>Niên khóa</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="sy" onclick="switchTab('sy')" class="nav-link"><i class="nav-icon bi bi-calendar-range"></i><p>Năm học</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="sem" onclick="switchTab('sem')" class="nav-link"><i class="nav-icon bi bi-calendar-week"></i><p>Học kỳ</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="cs" onclick="switchTab('cs')" class="nav-link"><i class="nav-icon bi bi-journal-bookmark"></i><p>Lớp học phần</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="scs" onclick="switchTab('scs')" class="nav-link"><i class="nav-icon bi bi-people"></i><p>Sinh viên lớp học phần</p></a></li>
+                  <li class="nav-item"><a href="javascript:void(0)" data-tab-nav="lcc" onclick="switchTab('lcc')" class="nav-link"><i class="nav-icon bi bi-person-workspace"></i><p>Giảng viên lớp học phần</p></a></li>
                 </ul>
               </li>
             </ul>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-ay" placeholder="Tìm kiếm niên khóa..." oninput="searchData('ay')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm học</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm học</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-ay"></tbody>
                     </table></div>
                   </div>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-sy" placeholder="Tìm kiếm năm học..." oninput="searchData('sy')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã</th><th>Tên</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Ghi chú</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã</th><th>Tên</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Ghi chú</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-sy"></tbody>
                     </table></div>
                   </div>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-sem" placeholder="Tìm kiếm học kỳ..." oninput="searchData('sem')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm học</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã</th><th>Tên</th><th>Năm học</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-sem"></tbody>
                     </table></div>
                   </div>
@@ -177,7 +177,7 @@
                     </div>
                     <div class="n5-search"><i class="bi bi-search n5-search-icon"></i><input type="text" id="search-cs" placeholder="Tìm kiếm lớp học phần..." oninput="searchData('cs')"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Mã lớp</th><th>Tên lớp</th><th>Niên khóa</th><th>Loại</th><th>Sĩ số tối đa</th><th>Trạng thái</th><th>Mở đăng ký</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Mã lớp</th><th>Tên lớp</th><th>Niên khóa</th><th>Loại</th><th>Sinh viên</th><th>Sĩ số tối đa</th><th>Trạng thái lớp</th><th>Mở đăng ký</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-cs"></tbody>
                     </table></div>
                   </div>
@@ -192,8 +192,9 @@
                       </div>
                       <button class="n5-btn-primary btn" onclick="openModal('scs')"><i class="bi bi-person-plus"></i>Đăng ký sinh viên</button>
                     </div>
+                    <div id="scs-filter-info" class="mb-3"></div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Sinh viên</th><th>Lớp học phần</th><th>Trạng thái</th><th>Ngày đăng ký</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Sinh viên</th><th>Lớp học phần</th><th>Tình trạng</th><th>Ngày đăng ký</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-scs"></tbody>
                     </table></div>
                   </div>
@@ -209,7 +210,7 @@
                       <button class="n5-btn-primary btn" onclick="openModal('lcc')"><i class="bi bi-person-plus"></i>Thêm giảng viên</button>
                     </div>
                     <div class="n5-table-wrap"><table class="table n5-table">
-                      <thead><tr><th>Giảng viên</th><th>Lớp học phần</th><th>Vai trò</th><th>Hiệu lực</th><th>Thao tác</th></tr></thead>
+                      <thead><tr><th>Giảng viên</th><th>Lớp học phần</th><th>Vai trò</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
                       <tbody id="table-lcc"></tbody>
                     </table></div>
                   </div>
@@ -269,9 +270,18 @@
       const myModal = new bootstrap.Modal(document.getElementById("mainModal"));
       const quickCourseModal = new bootstrap.Modal(document.getElementById("quickCourseModal"));
       let currentTab = "ay", currentEditingId = null;
+      let selectedCourseSectionId = null;
       let syDropdownData = [], schDropdownData = [], semDropdownData = [];
-      let studentData = [], employeeData = [], courseData = [], courseSectionData = [];
+      let studentData = [], employeeData = [], courseData = [], courseSectionData = [], studentCourseSectionData = [];
       let tabCounts = { ay: 0, sy: 0, sem: 0, cs: 0, scs: 0, lcc: 0 };
+      const emptyMessages = {
+        ay: "Chưa có niên khóa nào",
+        sy: "Chưa có năm học nào",
+        sem: "Chưa có học kỳ nào",
+        cs: "Chưa có lớp học phần nào",
+        scs: "Chưa có sinh viên nào",
+        lcc: "Chưa có giảng viên nào"
+      };
 
       function showLoading(show) {
         document.getElementById("loadingOverlay").style.display = show ? "flex" : "none";
@@ -285,14 +295,18 @@
             catch (e) { console.warn("Fetch failed: " + url, e); return []; }
           };
 
-          const [students, employees, courses] = await Promise.all([
+          const [students, employees, courses, courseSections, studentCourseSections] = await Promise.all([
             fetchSafely(`${DOMAIN}/students`),
             fetchSafely(`${DOMAIN}/employees`),
-            fetchSafely(`${DOMAIN}/courses`)
+            fetchSafely(`${DOMAIN}/courses`),
+            fetchSafely(`${DOMAIN}/course-sections`),
+            fetchSafely(`${DOMAIN}/student-course-sections`)
           ]);
           studentData = students;
           employeeData = employees;
           courseData = courses;
+          courseSectionData = courseSections;
+          studentCourseSectionData = studentCourseSections;
 
           await Promise.all([loadTab("ay"), loadTab("sy"), loadTab("sem"), loadTab("cs"), loadTab("scs"), loadTab("lcc")]);
           renderStats();
@@ -323,7 +337,24 @@
           const tab = bootstrap.Tab.getOrCreateInstance(triggerEl);
           tab.show();
           currentTab = tabId;
+          updateSidebarActive(tabId);
         }
+      }
+
+      function updateSidebarActive(tabId) {
+        document.querySelectorAll("[data-tab-nav]").forEach(link => {
+          link.classList.toggle("active", link.dataset.tabNav === tabId);
+        });
+      }
+
+      function initTabSync() {
+        document.querySelectorAll("#manage-tabs [data-bs-toggle='pill']").forEach(link => {
+          link.addEventListener("shown.bs.tab", event => {
+            const tabId = event.target.id.replace("tab-", "");
+            currentTab = tabId;
+            updateSidebarActive(tabId);
+          });
+        });
       }
 
       async function loadTab(tab, keyword = "") {
@@ -332,11 +363,13 @@
           const res = await fetch(url);
           const data = await res.json();
           tabCounts[tab] = data.length;
+          if (tab === "cs") courseSectionData = data;
+          if (tab === "scs") studentCourseSectionData = data;
           renderTable(tab, data);
+          if (tab === "scs") renderScsFilterInfo();
           if (tab === "ay") syDropdownData = data;
           if (tab === "sy") schDropdownData = data;
           if (tab === "sem") semDropdownData = data;
-          if (tab === "cs") courseSectionData = data;
         } catch (e) { console.error("Load error: " + tab, e); }
       }
 
@@ -365,8 +398,13 @@
         return `<span class="${cls}">${translateStatus(val)}</span>`;
       }
 
-      function renderActive(val) {
-        return val ? '<span class="n5-badge n5-badge-active">Đang hiệu lực</span>' : '<span class="n5-badge n5-badge-inactive">Ngừng hiệu lực</span>';
+      function renderActive(item) {
+        if (!item.isActive) return '<span class="n5-badge n5-badge-inactive">Ngừng hiệu lực</span>';
+        if (item.endDate) {
+          const end = new Date(item.endDate);
+          if (end < new Date()) return '<span class="n5-badge n5-badge-inactive">Ngừng hoạt động</span>';
+        }
+        return '<span class="n5-badge n5-badge-active">Đang hoạt động</span>';
       }
 
       function dateOnly(val) {
@@ -385,19 +423,64 @@
         return "";
       }
 
+      function getCourseSectionById(id) {
+        return courseSectionData.find(cs => cs.id?.toLowerCase() === id?.toLowerCase());
+      }
+
+      function getScsDisplayData(data) {
+        if (!selectedCourseSectionId) return data;
+        return data.filter(item => item.courseSectionId?.toLowerCase() === selectedCourseSectionId.toLowerCase());
+      }
+
+      function renderScsFilterInfo() {
+        const box = document.getElementById("scs-filter-info");
+        if (!box) return;
+        if (!selectedCourseSectionId) {
+          box.innerHTML = "";
+          return;
+        }
+        const courseSection = getCourseSectionById(selectedCourseSectionId);
+        const title = courseSection ? `${courseSection.name} (${courseSection.code})` : selectedCourseSectionId;
+        box.innerHTML = `
+          <div class="alert alert-info d-flex flex-wrap align-items-center justify-content-between gap-2 mb-0">
+            <div><strong>Đang xem sinh viên của lớp học phần:</strong> ${title}</div>
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="clearCourseSectionStudentFilter()">
+              <i class="bi bi-list-ul"></i> Xem tất cả
+            </button>
+          </div>`;
+      }
+
+      function viewCourseSectionStudents(courseSectionId) {
+        selectedCourseSectionId = courseSectionId;
+        switchTab("scs");
+        renderTable("scs", studentCourseSectionData);
+        renderScsFilterInfo();
+      }
+
+      function clearCourseSectionStudentFilter() {
+        selectedCourseSectionId = null;
+        renderTable("scs", studentCourseSectionData);
+        renderScsFilterInfo();
+      }
+
       function renderTable(tab, data) {
         const tbody = document.getElementById("table-" + tab);
-        if (!data.length) {
-          tbody.innerHTML = `<tr><td colspan="10"><div class="n5-empty"><i class="bi bi-inbox"></i><p>Chưa có dữ liệu</p></div></td></tr>`;
+        const displayData = tab === "scs" ? getScsDisplayData(data) : data;
+        if (!displayData.length) {
+          tbody.innerHTML = `<tr><td colspan="10"><div class="n5-empty"><i class="bi bi-inbox"></i><p>${emptyMessages[tab] || "Chưa có dữ liệu"}</p></div></td></tr>`;
           return;
         }
         let html = "";
-        data.forEach(x => {
+        displayData.forEach(x => {
           html += "<tr>";
           if (tab === "ay") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.year || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td>`;
           if (tab === "sy") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td><td>${x.note || x.description || ""}</td>`;
           if (tab === "sem") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.schoolYearName || ""}</td><td>${fmtDt(x.startDate)}</td><td>${fmtDt(x.endDate)}</td>`;
-          if (tab === "cs") html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.academicYear || ""}</td><td>${x.classType || ""}</td><td>${x.maxStudents || ""}</td><td>${renderBadge("status", x.status)}</td><td>${fmtDt(x.registrationStart)}</td>`;
+          if (tab === "cs") {
+            const enrolledCount = studentCourseSectionData.filter(item => item.courseSectionId?.toLowerCase() === x.id?.toLowerCase() && item.isActive).length;
+            const enrolledText = enrolledCount > 0 ? `${enrolledCount} sinh viên` : '<span class="text-muted">Chưa có sinh viên nào</span>';
+            html += `<td><strong>${x.code || ""}</strong></td><td>${x.name || ""}</td><td>${x.academicYear || ""}</td><td>${x.classType || ""}</td><td>${enrolledText}</td><td>${x.maxStudents || ""}</td><td>${renderBadge("status", x.status)}</td><td>${fmtDt(x.registrationStart)}</td>`;
+          }
           if (tab === "scs") {
             const s = studentData.find(st => st.id?.toLowerCase() === x.studentId?.toLowerCase());
             const c = courseSectionData.find(cs => cs.id?.toLowerCase() === x.courseSectionId?.toLowerCase());
@@ -412,8 +495,9 @@
                      <td>${c ? `<strong>${c.name}</strong><div class="small text-muted">${c.code}</div>` : `<span class="text-danger">${x.courseClassId}</span>`}</td>
                      <td><span class="badge bg-secondary">${x.role || "Giảng viên"}</span></td>`;
           }
-          html += `<td>${renderActive(x.isActive)}</td>`;
+          html += `<td>${renderActive(x)}</td>`;
           html += `<td>
+            ${tab === "cs" ? `<button class="n5-btn-edit me-1" onclick='viewCourseSectionStudents("${x.id}")' title="Xem sinh viên"><i class="bi bi-people"></i></button>` : ""}
             <button class="n5-btn-edit me-1" onclick='openModal("${tab}", ${JSON.stringify(x).replace(/'/g, "&#39;")})' title="Sửa"><i class="bi bi-pencil"></i></button>
             <button class="n5-btn-delete" onclick='doDelete("${tab}", "${x.id}")' title="Xóa"><i class="bi bi-trash"></i></button>
           </td></tr>`;
@@ -492,9 +576,10 @@
           </div>
           <div class="mb-3"><label class="form-label">Trạng thái</label><select class="form-select" id="v-st"><option value="planned" ${item?.status === "planned" ? "selected" : ""}>Dự kiến mở</option><option value="open" ${item?.status === "open" ? "selected" : ""}>Mở đăng ký</option></select></div>`;
         } else if (tab === "scs") {
+          const selectedSectionId = item?.courseSectionId || selectedCourseSectionId || "";
           const sOpts = studentData.map(s => `<option value="${s.id}" ${item?.studentId === s.id ? "selected" : ""}>${s.fullname} (${s.code})</option>`).join("");
-          const availableSections = courseSectionData.filter(c => c.isActive);
-          const cOpts = availableSections.map(c => `<option value="${c.id}" ${item?.courseSectionId === c.id ? "selected" : ""}>${c.name} (${c.code})</option>`).join("");
+          const availableSections = courseSectionData.filter(c => c.isActive || c.id === selectedSectionId);
+          const cOpts = availableSections.map(c => `<option value="${c.id}" ${selectedSectionId === c.id ? "selected" : ""}>${c.name} (${c.code})</option>`).join("");
           f = `
             <div class="mb-3"><label class="form-label">Sinh viên</label><select class="form-select" id="v-sid"><option value="">-- Chọn sinh viên --</option>${sOpts}</select></div>
             <div class="mb-3"><label class="form-label">Lớp học phần</label><select class="form-select" id="v-cid"><option value="">-- Chọn lớp học phần --</option>${cOpts}</select></div>
@@ -508,7 +593,7 @@
             <div class="mb-3"><label class="form-label">Vai trò</label><select class="form-select" id="v-role"><option value="Giang vien chinh" ${item?.role === "Giang vien chinh" ? "selected" : ""}>Giảng viên chính</option><option value="Giang vien phu" ${item?.role === "Giang vien phu" ? "selected" : ""}>Giảng viên phụ</option></select></div>`;
         }
 
-        f += `<div class="form-check mt-3"><input type="checkbox" class="form-check-input" id="v-active" ${(!item || item.isActive) ? "checked" : ""}><label class="form-check-label">Đang hiệu lực</label></div>`;
+        f += `<div class="form-check mt-3"><input type="checkbox" class="form-check-input" id="v-active" ${(!item || item.isActive) ? "checked" : ""}><label class="form-check-label">Kích hoạt (Đang hoạt động)</label></div>`;
         document.getElementById("modalBodyDynamic").innerHTML = f;
         myModal.show();
       }
@@ -622,7 +707,10 @@
         }
       }
 
-      document.addEventListener("DOMContentLoaded", loadAllTabs);
+      document.addEventListener("DOMContentLoaded", () => {
+        initTabSync();
+        loadAllTabs();
+      });
     </script>
   </body>
 </html>
